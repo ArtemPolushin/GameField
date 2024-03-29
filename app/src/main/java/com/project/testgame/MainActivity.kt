@@ -1,16 +1,16 @@
 package com.project.testgame
 
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.view.ViewGroup
-import android.widget.GridLayout
-import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import com.project.gamefield.GameFieldDelegate
+import com.project.gamefield.GameFieldModel
+import com.project.gamefield.GameFieldView
+import com.project.gamefield.GameObject
 
-//import com.project.gamefield.GameField
+class MainActivity : AppCompatActivity(), GameFieldDelegate {
 
-class MainActivity : AppCompatActivity() {
-
+    private lateinit var gameFieldView: GameFieldView
     private val figures: IntArray = intArrayOf(
         R.drawable.chess_whiterook,
         R.drawable.chess_whiteknight,
@@ -23,31 +23,31 @@ class MainActivity : AppCompatActivity() {
         R.drawable.chess_blackqueen,
         R.drawable.chess_blackking
     )
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val displayMetrics = DisplayMetrics()
-        @Suppress("DEPRECATION")
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val height = displayMetrics.heightPixels
-        val width = displayMetrics.widthPixels
-        val widthOfBlocks = width / 8
-        val heightOfBlocks = height / 8
-        val gridLayout: GridLayout = findViewById(R.id.field)
-        gridLayout.rowCount = 8
-        gridLayout.columnCount = 8
-        gridLayout.layoutParams.width = width
-        gridLayout.layoutParams.height = width
-        for (i in 0..<8) {
-            val imageView = ImageView(this)
-            imageView.id = i
-            imageView.layoutParams = ViewGroup.LayoutParams(widthOfBlocks, heightOfBlocks)
-            imageView.maxWidth = widthOfBlocks
-            imageView.maxHeight = heightOfBlocks
-            val ind = (figures.indices).random()
-            imageView.setImageResource(figures[ind])
-            gridLayout.addView(imageView)
-        }
-        //var gameField: GameField = GameField(8,8)
+        setContentView(com.project.gamefield.R.layout.gamefield_screen)
+        gameFieldView = findViewById(com.project.gamefield.R.id.gamefield_view)
+        gameFieldView.rightMargin = 10f
+        gameFieldView.leftMargin = 10f
+        gameFieldView.topMargin = 100f
+        gameFieldView.downMargin = 100f
+        GameFieldModel.columnCount = 8
+        GameFieldModel.rowCount = 8
+        gameFieldView.model = this
+    }
+
+    override fun onTouchActionDown(column: Int, row: Int) {
+        println("start Add object at $column, $row")
+    }
+
+    override fun onTouchActionMove(column: Int, row: Int) {
+        println("Adding object at $column, $row")
+    }
+
+    override fun onTouchActionUp(column: Int, row: Int) {
+        println("end adding object at $column, $row")
+        GameFieldModel.addGameObject(GameObject(column, row, R.drawable.chess_whiterook))
+        gameFieldView.invalidate()
     }
 }
