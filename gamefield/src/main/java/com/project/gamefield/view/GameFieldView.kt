@@ -1,4 +1,4 @@
-package com.project.gamefield
+package com.project.gamefield.view
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,6 +10,9 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import com.project.gamefield.controller.GameFieldControllerInterface
+import com.project.gamefield.dto.GameObject
+import com.project.gamefield.model.GameFieldModel
 
 
 class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
@@ -51,7 +54,7 @@ class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, att
 
     private var cellHeight: Float = 0f
 
-    var model: GameFieldDelegate? = null
+    var controller: GameFieldControllerInterface? = null
 
     override fun onDraw(canvas: Canvas) {
         cellWidth = (width.toFloat() - leftMargin - rightMargin) / GameFieldModel.columnCount * scale
@@ -95,18 +98,20 @@ class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, att
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return false
-
         val column: Int = ((event.x - leftMargin) / cellWidth).toInt()
         val row: Int = ((event.y - topMargin) / cellHeight).toInt()
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                model?.onTouchActionDown(column, row)
+                controller?.onTouchActionDown(column, row)
+                invalidate()
             }
             MotionEvent.ACTION_MOVE -> {
-                model?.onTouchActionMove(column, row)
+                controller?.onTouchActionMove(column, row)
+                invalidate()
             }
             MotionEvent.ACTION_UP -> {
-                model?.onTouchActionUp(column, row)
+                controller?.onTouchActionUp(column, row)
+                invalidate()
             }
         }
         return true

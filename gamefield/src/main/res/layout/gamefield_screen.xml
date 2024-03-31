@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
-    <com.project.gamefield.GameFieldView
+    <com.project.gamefield.view.GameFieldView
         android:id="@+id/gamefield_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.project.gamefield.GameFieldView>
+    </com.project.gamefield.view.GameFieldView>
 
 </LinearLayout>

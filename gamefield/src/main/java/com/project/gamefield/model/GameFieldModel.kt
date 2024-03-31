@@ -1,0 +1,40 @@
+package com.project.gamefield.model
+
+import androidx.lifecycle.ViewModel
+import com.project.gamefield.dto.GameObject
+
+object GameFieldModel : GameFieldModelInterface, ViewModel() {
+    override var columnCount: Int = 1
+    override var rowCount: Int = 1
+    private var gameObjects = mutableSetOf<GameObject>()
+    override fun addGameObject(gameObject: GameObject) {
+        gameObjects.add(gameObject)
+    }
+    override fun removeAllGameObjects() {
+       gameObjects.clear()
+    }
+    override fun removeGameObjectAt(column: Int, row: Int) {
+        getGameObjectAt(column, row)?.let {
+            gameObjects.remove(it)
+        }
+    }
+    override fun getGameObjectAt(column: Int, row: Int) : GameObject? {
+        for (gameObject in gameObjects) {
+            if (gameObject.column == column && gameObject.row == row) {
+                return gameObject
+            }
+        }
+        return null
+    }
+    override fun moveGameObject(gameObject: GameObject, newColumn: Int, newRow: Int) {
+        val targetGameObject = getGameObjectAt(newColumn, newRow)
+        if (targetGameObject != null) {
+            gameObjects.remove(targetGameObject)
+        }
+        gameObjects.remove(gameObject)
+        gameObjects.add(GameObject(newColumn, newRow, gameObject.resourceId))
+    }
+    override fun getAllGameObjects(): Set<GameObject> {
+        return gameObjects
+    }
+}
