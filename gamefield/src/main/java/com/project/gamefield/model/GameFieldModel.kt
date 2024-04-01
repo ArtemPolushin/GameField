@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.project.gamefield.dto.GameObject
 
 object GameFieldModel : GameFieldModelInterface, ViewModel() {
+
     private var gameObjects = mutableSetOf<GameObject>()
     override fun addGameObject(gameObject: GameObject) {
         gameObjects.add(gameObject)
