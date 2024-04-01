@@ -3,8 +3,6 @@ package com.project.gamefield.model
 import com.project.gamefield.dto.GameObject
 
 interface GameFieldModelInterface {
-    var columnCount: Int
-    var rowCount: Int
     fun addGameObject(gameObject: GameObject)
     fun getAllGameObjects(): Set<GameObject>
     fun removeAllGameObjects()

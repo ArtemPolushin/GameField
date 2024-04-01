@@ -1,10 +1,14 @@
 package com.project.testgame
 
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.project.gamefield.controller.GameFieldControllerInterface
 import com.project.gamefield.dto.GameObject
+import com.project.gamefield.dto.Rectangle
 import com.project.gamefield.model.GameFieldModel
 import com.project.gamefield.view.GameFieldView
 import kotlin.random.Random
@@ -46,11 +50,18 @@ class MainActivity : AppCompatActivity(), GameFieldControllerInterface {
         setContentView(com.project.gamefield.R.layout.gamefield_screen)
         val gameFieldView: GameFieldView = findViewById(com.project.gamefield.R.id.gamefield_view)
         gameFieldView.controller = this
-        gameFieldView.rightMargin = 100f
-        gameFieldView.leftMargin = 100f
-        gameFieldView.topMargin = 100f
-        gameFieldView.downMargin = 500f
-        GameFieldModel.columnCount = 4
-        GameFieldModel.rowCount = 4
+        val param = gameFieldView.layoutParams
+        param.height = 1000
+        param.width = 1000
+        gameFieldView.layoutParams = param
+        gameFieldView.columnCount = 8
+        gameFieldView.rowCount = 8
+        for (i in 0..8) {
+            for (j in 0..8) {
+                val paint = Paint()
+                paint.color = if ((i+j) % 2 == 0) Color.LTGRAY else Color.DKGRAY
+                gameFieldView.setPaintRectangle(paint, Rectangle(i,j))
+            }
+        }
     }
 }
