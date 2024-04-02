@@ -4,35 +4,21 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
+import kotlin.random.Random
 import androidx.appcompat.app.AppCompatActivity
+
 import com.project.gamefield.controller.GameFieldControllerInterface
 import com.project.gamefield.dto.GameObject
 import com.project.gamefield.dto.Cell
 import com.project.gamefield.model.GameFieldModel
 import com.project.gamefield.view.GameFieldView
-import kotlin.random.Random
+
 
 class MainActivity : AppCompatActivity(), GameFieldControllerInterface {
-
-    private val figures: IntArray = intArrayOf(
-        R.drawable.chess_whiterook,
-        R.drawable.chess_whiteknight,
-        R.drawable.chess_whitebishop,
-        R.drawable.chess_whitequeen,
-        R.drawable.chess_whiteking,
-        R.drawable.chess_blackrook,
-        R.drawable.chess_blackknight,
-        R.drawable.chess_blackbishop,
-        R.drawable.chess_blackqueen,
-        R.drawable.chess_blackking
-    )
     override fun onTouchActionDown(column: Int, row: Int) {
     }
-
     override fun onTouchActionMove(column: Int, row: Int) {
-
     }
-
     override fun onTouchActionUp(column: Int, row: Int) {
         val obj = GameFieldModel.getGameObjectAt(column, row)
         if (obj == null) {
@@ -43,12 +29,11 @@ class MainActivity : AppCompatActivity(), GameFieldControllerInterface {
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.project.gamefield.R.layout.gamefield_screen)
         val gameFieldView: GameFieldView = findViewById(com.project.gamefield.R.id.gamefield_view)
-        gameFieldView.controller = this
         val param = gameFieldView.layoutParams
         param.height = 1000
         param.width = 1000
@@ -62,5 +47,19 @@ class MainActivity : AppCompatActivity(), GameFieldControllerInterface {
                 gameFieldView.setPaintCell(paint, Cell(i,j))
             }
         }
+        gameFieldView.controller = this
     }
+
+    private val figures: IntArray = intArrayOf(
+        R.drawable.chess_whiterook,
+        R.drawable.chess_whiteknight,
+        R.drawable.chess_whitebishop,
+        R.drawable.chess_whitequeen,
+        R.drawable.chess_whiteking,
+        R.drawable.chess_blackrook,
+        R.drawable.chess_blackknight,
+        R.drawable.chess_blackbishop,
+        R.drawable.chess_blackqueen,
+        R.drawable.chess_blackking
+    )
 }
