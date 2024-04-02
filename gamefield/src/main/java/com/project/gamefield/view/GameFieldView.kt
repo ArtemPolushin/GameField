@@ -147,7 +147,7 @@ class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, att
     }
 
     /**
-     * Нарисовать игровые объекты
+     * Нарисовать все игровые объекты
      * @param canvas Холст, на котором будет нарисованы игровые объекты
      */
     private fun drawGameObjects(canvas: Canvas) {

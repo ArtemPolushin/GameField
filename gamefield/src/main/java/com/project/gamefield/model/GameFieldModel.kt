@@ -1,10 +1,12 @@
 package com.project.gamefield.model
 
-import androidx.lifecycle.ViewModel
 import com.project.gamefield.dto.GameObject
 
-object GameFieldModel : GameFieldModelInterface, ViewModel() {
+object GameFieldModel : GameFieldModelInterface {
 
+    /**
+     * Коллекция из всех игровых объектов на поле
+     */
     private var gameObjects = mutableSetOf<GameObject>()
     override fun addGameObject(gameObject: GameObject) {
         gameObjects.add(gameObject)
