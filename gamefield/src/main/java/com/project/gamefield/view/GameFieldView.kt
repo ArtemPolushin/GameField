@@ -76,11 +76,11 @@ class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, att
     private var paints: MutableMap<Cell, Paint> = mutableMapOf()
 
     /**
-     * Установить выбранную краску для данного прямоугольника
+     * Установить выбранную краску для данной клетки
      * @param paint Краска для установки
-     * @param cell Прямоугольник, на который устанавливается краска
+     * @param cell Клетка, на который устанавливается краска
      */
-    fun setPaintRectangle(paint: Paint, cell: Cell) {
+    fun setPaintCell(paint: Paint, cell: Cell) {
         if (cell.column < 0 || cell.column >= columnCount ||
             cell.row < 0 || cell.row >= rowCount) {
             return
@@ -89,7 +89,7 @@ class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, att
     }
 
     /**
-     * Установить выбранную краску для всех прямоугольников строки
+     * Установить выбранную краску для всех клеток строки
      * @param paint Краска для установки
      * @param row Индекс строки
      */
@@ -98,12 +98,12 @@ class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, att
             throw IllegalArgumentException("The row number must be from 0 until rowCount")
         }
         for (column in 0 until columnCount) {
-            setPaintRectangle(paint, Cell(column, row))
+            setPaintCell(paint, Cell(column, row))
         }
     }
 
     /**
-     * Установить выбранную краску для всех прямоугольников столбца
+     * Установить выбранную краску для всех клеток столбца
      * @param paint Краска для установки
      * @param column Индекс столбца
      */
@@ -112,7 +112,7 @@ class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, att
             throw IllegalArgumentException("The column number must be from 0 until columnCount")
         }
         for (row in 0 until columnCount) {
-            setPaintRectangle(paint, Cell(column, row))
+            setPaintCell(paint, Cell(column, row))
         }
     }
     override fun onDraw(canvas: Canvas) {
@@ -130,19 +130,19 @@ class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, att
     private fun drawField(canvas: Canvas) {
         for (row in 0 until rowCount) {
             for (column in 0 until columnCount) {
-                drawRectangle(canvas, column, row, paints[Cell(column, row)]?:Paint())
+                drawCell(canvas, column, row, paints[Cell(column, row)]?:Paint())
             }
         }
     }
 
     /**
-     * Нарисовать прямоугольник
-     * @param canvas Холст, на котором будет нарисован прямоугольник
-     * @param column Индекс столбца прямоугольника
-     * @param row Индекс строки прямоугольника
-     * @param rectPaint Краска, которой будет нарисован прямоугольник
+     * Нарисовать клетку
+     * @param canvas Холст, на котором будет нарисован клетка
+     * @param column Индекс столбца клетки
+     * @param row Индекс строки клетки
+     * @param rectPaint Краска, которой будет нарисован клетка
      */
-    private fun drawRectangle(canvas: Canvas, column: Int, row: Int, rectPaint: Paint) {
+    private fun drawCell(canvas: Canvas, column: Int, row: Int, rectPaint: Paint) {
         canvas.drawRect(getRectF(column, row), rectPaint)
     }
 
@@ -169,7 +169,7 @@ class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, att
     }
 
     /**
-     * Получить прямоугольник с координатами по номеру столбца и строки
+     * Получить клетку с координатами по номеру столбца и строки
      * @param column Номер столбца
      * @param row Номер строки
      */

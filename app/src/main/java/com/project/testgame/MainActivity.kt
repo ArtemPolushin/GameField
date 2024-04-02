@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), GameFieldControllerInterface {
             for (j in 0..8) {
                 val paint = Paint()
                 paint.color = if ((i+j) % 2 == 0) Color.LTGRAY else Color.DKGRAY
-                gameFieldView.setPaintRectangle(paint, Cell(i,j))
+                gameFieldView.setPaintCell(paint, Cell(i,j))
             }
         }
     }
