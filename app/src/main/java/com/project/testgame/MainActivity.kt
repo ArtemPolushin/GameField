@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.project.gamefield.controller.GameFieldControllerInterface
 import com.project.gamefield.dto.GameObject
-import com.project.gamefield.dto.Rectangle
+import com.project.gamefield.dto.Cell
 import com.project.gamefield.model.GameFieldModel
 import com.project.gamefield.view.GameFieldView
 import kotlin.random.Random
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), GameFieldControllerInterface {
             for (j in 0..8) {
                 val paint = Paint()
                 paint.color = if ((i+j) % 2 == 0) Color.LTGRAY else Color.DKGRAY
-                gameFieldView.setPaintRectangle(paint, Rectangle(i,j))
+                gameFieldView.setPaintRectangle(paint, Cell(i,j))
             }
         }
     }

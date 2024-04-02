@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.project.gamefield.controller.GameFieldControllerInterface
 import com.project.gamefield.dto.GameObject
-import com.project.gamefield.dto.Rectangle
+import com.project.gamefield.dto.Cell
 import com.project.gamefield.model.GameFieldModel
 
 class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
@@ -73,19 +73,19 @@ class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, att
     /**
      * Таблица красок поля
      */
-    private var paints: MutableMap<Rectangle, Paint> = mutableMapOf()
+    private var paints: MutableMap<Cell, Paint> = mutableMapOf()
 
     /**
      * Установить выбранную краску для данного прямоугольника
      * @param paint Краска для установки
-     * @param rectangle Прямоугольник, на который устанавливается краска
+     * @param cell Прямоугольник, на который устанавливается краска
      */
-    fun setPaintRectangle(paint: Paint, rectangle: Rectangle) {
-        if (rectangle.column < 0 || rectangle.column >= columnCount ||
-            rectangle.row < 0 || rectangle.row >= rowCount) {
+    fun setPaintRectangle(paint: Paint, cell: Cell) {
+        if (cell.column < 0 || cell.column >= columnCount ||
+            cell.row < 0 || cell.row >= rowCount) {
             return
         }
-        paints[rectangle] = paint
+        paints[cell] = paint
     }
 
     /**
@@ -98,7 +98,7 @@ class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, att
             throw IllegalArgumentException("The row number must be from 0 until rowCount")
         }
         for (column in 0 until columnCount) {
-            setPaintRectangle(paint, Rectangle(column, row))
+            setPaintRectangle(paint, Cell(column, row))
         }
     }
 
@@ -112,7 +112,7 @@ class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, att
             throw IllegalArgumentException("The column number must be from 0 until columnCount")
         }
         for (row in 0 until columnCount) {
-            setPaintRectangle(paint, Rectangle(column, row))
+            setPaintRectangle(paint, Cell(column, row))
         }
     }
     override fun onDraw(canvas: Canvas) {
@@ -130,7 +130,7 @@ class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, att
     private fun drawField(canvas: Canvas) {
         for (row in 0 until rowCount) {
             for (column in 0 until columnCount) {
-                drawRectangle(canvas, column, row, paints[Rectangle(column, row)]?:Paint())
+                drawRectangle(canvas, column, row, paints[Cell(column, row)]?:Paint())
             }
         }
     }
@@ -165,7 +165,7 @@ class GameFieldView(context: Context?, attrs: AttributeSet?) : View(context, att
     private fun drawGameObjectAt(canvas: Canvas, gameObject: GameObject) {
         val bitmap = BitmapFactory.decodeResource(resources, gameObject.resourceId)
         canvas.drawBitmap(bitmap, null, getRectF(gameObject.column, gameObject.row),
-            paints[Rectangle(gameObject.column, gameObject.row)])
+            paints[Cell(gameObject.column, gameObject.row)])
     }
 
     /**
